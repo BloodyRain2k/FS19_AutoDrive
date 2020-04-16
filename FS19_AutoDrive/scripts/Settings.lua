@@ -767,7 +767,7 @@ AutoDrive.settings.followOnlyOnField = {
     text = "gui_ad_followOnlyOnField",
     tooltip = "gui_ad_followOnlyOnField_tooltip",
     translate = true,
-    isVehicleSpecific = true
+    isVehicleSpecific = false
 }
 
 AutoDrive.settings.addSettingsToHUD = {
