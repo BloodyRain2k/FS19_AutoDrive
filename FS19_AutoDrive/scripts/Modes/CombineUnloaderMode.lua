@@ -602,8 +602,12 @@ function CombineUnloaderMode:getPipeChasePosition()
             end
         end
 
-        local leftChasePos = AutoDrive.createWayPointRelativeToVehicle(self.combine, sideChaseTermX + slopeCorrection, sideChaseTermZ)
-        local rightChasePos = AutoDrive.createWayPointRelativeToVehicle(self.combine, -sideChaseTermX + slopeCorrection, sideChaseTermZ)
+        local leftChasePos = AutoDrive.createWayPointRelativeToVehicle(self.combine, 
+                                                                        sideChaseTermX + self:getPipeSlopeCorrection() , 
+                                                                        sideChaseTermZ)
+        local rightChasePos = AutoDrive.createWayPointRelativeToVehicle(self.combine, 
+                                                                        -(sideChaseTermX + self:getPipeSlopeCorrection()),
+                                                                        sideChaseTermZ)
         local rearChasePos = AutoDrive.createWayPointRelativeToVehicle(self.combine, 0, rearChaseTermZ)
 
         local sideOffset = 7
@@ -626,6 +630,8 @@ function CombineUnloaderMode:getPipeChasePosition()
         local angleToLeftChaseSide = self:getAngleToChasePos(leftChasePos)
         local angleToRearChaseSide = self:getAngleToChasePos(rearChasePos)
 
+        -- Default to the side of the harvester the unloader is already on
+        -- then check if there is a better side
         chaseNode = leftChasePos
         sideIndex = AutoDrive.CHASEPOS_LEFT
         local unloaderPos, _ = self:getUnloaderOnSide()
@@ -652,7 +658,7 @@ function CombineUnloaderMode:getPipeChasePosition()
         local combineMaxCapacity = combineFillLevel + combineLeftCapacity
         local combineFillPercent = (combineFillLevel / combineMaxCapacity) * 100
 
-        local sideChasePos = AutoDrive.createWayPointRelativeToVehicle(self.combine, (sideChaseTermX * self.pipeSide) + slopeCorrection, sideChaseTermZ)
+        local sideChasePos = AutoDrive.createWayPointRelativeToVehicle(self.combine, self.pipeSide * (sideChaseTermX + self:getPipeSlopeCorrection()), sideChaseTermZ)
         local rearChasePos = AutoDrive.createWayPointRelativeToVehicle(self.combine, rearChaseTermX, rearChaseTermZ)
         local angleToSideChaseSide = self:getAngleToChasePos(sideChasePos)
         local angleToRearChaseSide = self:getAngleToChasePos(rearChasePos)
